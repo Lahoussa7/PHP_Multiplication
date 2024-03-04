@@ -1,7 +1,7 @@
 <?php
-session_start(); // commencer la session de php pour stocké les valeur precedente de tabline
+session_start(); // commencer la session de PHP pour stocker les valeurs précédentes de tabline
 
-// tester s'il y a déjà des valeur dans ligne
+// tester s'il y a déjà des valeurs dans ligne
 if (isset($_GET["ligne"])) {
     // affecter la valeur ligne dans la variable valeur_ligne
     $valeur_ligne = $_GET["ligne"];
@@ -9,9 +9,6 @@ if (isset($_GET["ligne"])) {
     // Et on ajoute la valeur de "ligne" au tableau tabline de la session
     $_SESSION['tabline'][] = $valeur_ligne;
 }
-// if ($_SERVER["REQUEST_METHOD"] == "GET") {
-//     unset($_SESSION['tabline']);
-// }
 
 ?>
 <!DOCTYPE html>
@@ -62,7 +59,8 @@ if (isset($_GET["ligne"])) {
                 // Récupérer les valeurs de a et b
                 $a = $_GET["a"];
                 $b = $_GET["b"];
-            
+                echo $a;
+                echo $b;
                 // Chemin du fichier 
                 $chemin_fichier = '/home/test/Dossier/recevoir.txt'; 
             
@@ -78,19 +76,19 @@ if (isset($_GET["ligne"])) {
                     fclose($handle_w_plus);
             
             }
-            }
+            }   $line=array();
                 if(!empty($_GET['x'])&&!empty($_GET['y'])){
-                $x=$_GET["x"];
-                $y=$_GET["y"];
-                echo $y;
-                echo $x;
-                $chemin = '/home/test/Dossier/row.txt';
-                $handle = fopen($chemin, "r");
-                $contline = file_get_contents($chemin);
-               // echo $contline;
-                $line=array();
-                $line = explode(' ', $contline);
-                echo "who $line";
+                        $x=$_GET["x"];
+                        $y=$_GET["y"];
+                        echo $y;
+                        echo $x;
+                        $chemin = '/home/test/Dossier/row.txt';
+                        $handle = fopen($chemin, "r");
+                        $contline = file_get_contents($chemin);
+                        echo  "where $contline";
+                        
+                        $line = explode(' ', $contline);
+                        echo "who $line[0]  $line[1] $line[2]";
                 }
                 $way_file = '/home/test/Dossier/recevoir.txt'; 
             
@@ -117,10 +115,17 @@ if (isset($_GET["ligne"])) {
                 }
                 $tab = array();
                 for ($i = 0; $i <= $cont_b; $i++) {
-                    $tab[$i][0] = $i;           // Colonne "a"
+                    $tab[$i][0] = $i;                // Colonne "a"
                     $tab[$i][1] = $cont_a;           // Colonne "i"
                     $tab[$i][2] = $cont_a * $i;      // Colonne "c"
                 }
+
+                // Stocker les valeurs de row.txt dans un tableau d'entiers
+                $row_values = array_map('intval', $line);
+
+                // Afficher les valeurs de row.txt
+                echo "Valeurs de row.txt : ";
+                print_r($row_values);
 
                 for ($j = 0; $j <= $cont_b; $j++) {
                     if(in_array($j, $line)){
@@ -147,10 +152,7 @@ if (isset($_GET["ligne"])) {
                     echo "<td>{$tab[$j][0]}</td>";
                     echo "<td>{$tab[$j][1]}</td>";
                     echo "<td>{$tab[$j][2]}</td>";
-                    echo "<td><button><a href=\"http://www.Lahoussa.com/recupere.php?ligne=$j\">modifier</a></button> <a href=\"http://www.Lahoussa.com/multi.php?a=$cont_a&b=$cont_b&ligne=$j\">supprimer</a></td>";
-                    echo "</tr>";
-                }
-                }
+                    echo "<td><button><a href=\"http://www.Lahoussa.com/recupere.php?ligne=$j\">modifier</a></button> <a href=\"http://www.Lah
             ?>
         </table>
     </div>

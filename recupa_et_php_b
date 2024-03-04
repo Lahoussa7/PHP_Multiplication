@@ -1,0 +1,79 @@
+<?php
+session_start(); // Commencer la session
+
+// Tester s'il y a déjà des valeurs dans ligne
+if (isset($_GET["ligne"])) {
+    // Affecter la valeur de ligne dans la variable valeur_ligne
+    $valeur_ligne = $_GET["ligne"];
+
+    // Et on ajoute la valeur de "ligne" au tableau tabline de la session
+    $_SESSION['tabline'][] = $valeur_ligne;
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplication de a*b</title>
+    <style>
+        .model{
+            width:100vw;
+            height:50vh;
+            background-color: bisque;
+            display:flex;
+            align-items:center;
+            margin-left:$20%
+
+        }
+    </style>
+</head>
+<body>
+    <div class="model">
+    <form action="multi.php" method="get">
+        MULTIPLICATION<br>
+     Valeur de a <input type="number" name="x" /><br>
+     Valeur de b <input type="number" name="y"/>
+   
+        <button type="submit">save</button>
+    </form>   
+</div>
+
+<?php 
+// Prendre les valeurs de tabline qui sont dans la session
+if (isset($_SESSION['tabline'])) {
+    // S'il y a $_SESSION['tabline'], on affecte sa valeur à $tabline
+    $tabline = $_SESSION['tabline'];
+   // echo $_SESSION['tabline'][1];
+    // Chemin du fichier où vous souhaitez stocker les valeurs
+    $chemin_fichier = '/home/test/Dossier/row.txt';
+
+    // Ouvrir le fichier en mode écriture
+    $handle = fopen($chemin_fichier, "w+");
+    if ($handle === false) {
+        die("Impossible d'ouvrir le fichier pour écriture.");
+    }
+
+    // Vérifier si l'ouverture du fichier a réussi
+    if ($handle !== false) {
+        foreach ($_SESSION['tabline'] as $valeur) {
+            // Écrire dans le fichier
+            if (fwrite($handle, "$valeur ") === false) {
+                die("Impossible d'écrire dans le fichier.");
+            }
+        }
+
+        // Fermeture du fichier
+        fclose($handle);
+    }
+
+} 
+else {
+    $_SESSION['tabline']= array();
+}
+?>
+</body>
+</html>
